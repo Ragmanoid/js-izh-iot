@@ -10,7 +10,7 @@ void setup() {
 	Serial.begin(9600);
 
 	// Connect to wifi 
-	 WiFi.begin(ssid, wifi_password);
+	WiFi.begin(ssid, wifi_password);
 
 	while (WiFi.status() != WL_CONNECTED) {
 		delay(1000);
@@ -20,9 +20,8 @@ void setup() {
 }
 
 void loop() {
-	if (Serial.available()) {
+	if (Serial.available()) 
 		send_data(Serial.readString());
-	}
 }
 
 void send_data(String data) {

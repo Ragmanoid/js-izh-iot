@@ -31,6 +31,7 @@
 |
 +---Examples
 |   +---Thingworx
+|   +---Wifi
 ```
 ## Датчики
 ### Датчик влажности почвы
@@ -51,18 +52,21 @@
 Расположение: `./Sensors/Noise sensor`
 
 ## Исполнительные элементы
-### Элемент пельте
-Расположение: `./Execitive elements/Pelte`
+
 ### Feetech FS90
 Расположение: `./Execitive elements/FS90`
 ### Светодиод "Пиранья"
 Расположение: `./Execitive elements/Light`
+
+(просто подача питания через digitalWrite)
+
 ### Зуммер
 Расположение: `./Execitive elements/Buzzer`
 ### Мини-реле
 Расположение: `./Execitive elements/Relay`
-### Вентилятор (кулер)
-Расположение: `./Execitive elements/Cooler`
+
+(просто подача питания через digitalWrite)
+
 
 ## Wi-Fi модуль
 В данном руководстве рекомендуется загрузить на модуль уневерсальную программу, которая будет сама общаться с основной платой по serial каналу. 
@@ -75,16 +79,16 @@
     "api_key": "my api key",
     "get": [ // GET параметры, которые передадуться на сервер 
         {
-            "key": "appKey",
-            "value": "TOKEN"
+            "key": "Temperature",
+            "value": "23.5"
         },
         {
-            "key": "method",
-            "value": "post"
+            "key": "Humidity",
+            "value": "26.1"
         },
         {
-            "key": "x-thingworx-session",
-            "value": "true"
+            "key": "Button",
+            "value": "0"
         }
     ]
 }
@@ -93,7 +97,9 @@
 
 ## Класс по работе с Thingworx
 
-Пример как работать с библиотекой находится: `./Examples/Thingwrox` 
+Пример как работать с классом находится: `./Examples/Thingwrox` 
+
+Если у вас данные некорректно отправляются - возможно стоит проверить размеры DynamicJsonDocument`ов 
 
 ## Полезные ссылки
 
