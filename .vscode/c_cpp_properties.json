@@ -12,9 +12,12 @@
                 "C:\\Program Files (x86)\\Arduino\\libraries\\**",
                 "C:\\Users\\1mish\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\**",
                 "C:\\Users\\1mish\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\**",
-                "C:\\Users\\1mish\\AppData\\Local\\Arduino15\\**"
+                "C:\\Users\\1mish\\AppData\\Local\\Arduino15\\**",
+                "C:/Users/1mish/OneDrive/Документы/Arduino/libraries/ArduinoJson/src"
             ],
-            "forcedInclude": [],
+            "forcedInclude": [
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+            ],
             "defines": [
                 "USBCON"
             ],

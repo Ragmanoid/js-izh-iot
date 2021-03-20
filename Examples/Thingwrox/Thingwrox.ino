@@ -1,26 +1,40 @@
-#include <IOT.h>
+#include "Thingworx.h"
 
 #define BAUD_RATE 9600
+#define COUNT_SENSORS 3
 
-IOT iot;
+Thingworx thingworx_wifi;
+
+String sensors_names[COUNT_SENSORS] = {
+	"TemperatureInner",
+	"Humidity",
+	"TemperatureOut"
+};
+
+String sensors_values[COUNT_SENSORS] = {
+	"1", "2", "3"
+};
 
 void setup() {
 	Serial.begin(BAUD_RATE);
 
-	iot.iot_server = "";	// Thingworx server
-	iot.thing_name = "";	// Thing name
-	iot.service_name = ""; 	// Service name
-	iot.api_key = "";	// Api key
+	thingworx_wifi.iot_server = "127.0.0.1";	// Thingworx server
+	thingworx_wifi.thing_name = "My_Thing";	// Thing name
+	thingworx_wifi.service_name = "My_Service"; 	// Service name
+	thingworx_wifi.api_key = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";	// Api key
 
-	iot.ssid = "SweetHome";	// Ssid network
-	iot.wifi_password = "P@ssw0rd";	// Wifi password
-
-	iot.
-
-	iot.init();
+	thingworx_wifi.WIFI_RX_PIN = 2;
+	thingworx_wifi.WIFI_TX_PIN = 3;
 }
 
 void loop() {
-	iot.read_data();
-	iot.send_data();
+	String data[COUNT_SENSORS*2];
+
+	for (int i = 0; i < COUNT_SENSORS*2; i += 2) {
+		data[i] = sensors_names[i/2];
+		data[i+1] = sensors_values[i/2];
+	}
+
+	Serial.println(thingworx_wifi.send_data(data, COUNT_SENSORS));
+	delay(1000);
 }

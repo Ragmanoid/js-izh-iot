@@ -3,14 +3,8 @@
 #include <ArduinoJson.h>
 
 // Wifi parameters
-String ssid = "WIFI SSID";	// Wifi ssid
-String wifi_password = "password";	// Wifi password
-
-String iot_server = "";
-String thing_name = "";
-String service_name = "";
-String api_key = "";
-String get_params = "";
+String ssid = "SSID";	// Wifi ssid
+String wifi_password = "PASSWORD";	// Wifi password
 
 void setup() {
 	Serial.begin(9600);
@@ -27,64 +21,67 @@ void setup() {
 
 void loop() {
 	if (Serial.available()) {
-		parse_data(Serial.readString());
-		send_data();
+		send_data(Serial.readString());
 	}
 }
 
-void parse_data(String data) {
-	Serial.println(data);
-	
-	StaticJsonDocument<1024> doc;
-	deserializeJson(doc, data);
-
-	iot_server = String(doc["server"]);
-	thing_name = String(doc["thing_name"]);
-	service_name = String(doc["service_name"]);
-	api_key = String(doc["api_key"]);
-
-	String get_arr[] = doc["get_params"];
-	
-}
-
-void send_data() {
+void send_data(String data) {
 	if (WiFi.status() == WL_CONNECTED) {	// Check WiFi connection status
+		
+		// Parse serial json data
+		DynamicJsonDocument doc(1024);
+		deserializeJson(doc, data);
+
+		const char* iot_server = doc["server"];
+		const char* thing_name = doc["thing_name"];
+		const char* service_name = doc["service_name"];
+		const char* api_key = doc["api_key"];
+
+		String get_params = "";
+
+		for (int i = 0; i < doc["get_params"].size(); i++) {
+			const char* key = doc["get_params"][i]["key"];
+			const char* value = doc["get_params"][i]["value"];
+			get_params += String("&") + key + "=" + value;
+		}
 
 		HTTPClient http;	// Declare an object of class HTTPClient
 
 		// Generate request
 		String request = String("http://") +
 			iot_server + 
-			"/Thingworx/" +
+			"/Thingworx/Things/" +
 			thing_name + 
 			"/Services/" +
 			service_name +
-			"?appKey" + 
+			"?appKey=" + 
 			api_key + 
 			"&method=post&x-thingworx-session=true" + get_params;
 
-		Serial.println(request);
+		// Serial.println(request);
+
+		// Specify request destination
+		http.begin(request);
 
 		// Set headers
 		http.addHeader("Accept", "application/json");
 		http.addHeader("Host", iot_server);
 		http.addHeader("Content-Type", "application/json");
 
-		// Specify request destination
-		http.begin(request);
 
 		// Send the request
-		int httpCode = http.GET();
+		int httpCode = http.POST("");
 
 		// Check the returning code
 		if (httpCode > 0) {
 			String payload = http.getString();	// Get the request response payload
 			Serial.println(payload);
-
+		} else {
+			Serial.println("{\"error\": 1, \"data\": \"Error server connection\"}");
 		}
 
 		http.end();	// Close connection
 	} else {
-		Serial.println("Wifi is not connected");	
+		Serial.println("{\"error\": 1, \"data\": \"Wifi is not connected\"}");
 	}
 }
