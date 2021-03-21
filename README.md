@@ -74,10 +74,10 @@
 ```
 {
     "server": "192.168.0.1",
-    "thing_name": "my_thing",
-    "service_name": "my_service",
-    "api_key": "my api key",
-    "get": [ // GET параметры, которые передадуться на сервер 
+    "thingName": "my_thing",
+    "serviceName": "my_service",
+    "apiKey": "my api key",
+    "getParams": [ // GET параметры, которые передадуться на сервер 
         {
             "key": "Temperature",
             "value": "23.5"

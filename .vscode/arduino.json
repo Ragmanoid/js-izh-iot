@@ -1,5 +1,0 @@
-{
-    "sketch": "Examples\\Wifi\\Wifi.ino",
-    "board": "arduino:avr:uno",
-    "port": "COM3"
-}
